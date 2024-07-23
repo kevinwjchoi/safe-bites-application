@@ -29,7 +29,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
-app.config['SECRET_KEY'] = os.urandom(12).hex()
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', os.urandom(24).hex())
 
 # Define metadata, instantiate db
 metadata = MetaData(naming_convention={

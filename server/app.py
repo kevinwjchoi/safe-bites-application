@@ -39,12 +39,14 @@ class Signup(Resource):
     def post(self):
         data = request.get_json()
 
-        if 'username' not in data or 'email' not in data or 'password':
+        if 'username' not in data or 'email' not in data or 'password' not in data:
             return {'error':'Username, email, and password are required'}, 422
 
         username = data['username'].lower()
         email = data['email'].lower()
         password = data['password']
+        allergies = data.get('allergies', '')
+        restrictions = data.get('restrictions', '')
 
         username_exists = User.query.filter_by(username = username).first()
         email_exists = User.query.filter_by(email = email).first()
@@ -57,7 +59,9 @@ class Signup(Resource):
         new_user = User(
             username=username,
             email = email,
-            password_hash = password
+            password_hash = password,
+            allergies = allergies,
+            restrictions = restrictions
             )
 
         db.session.add(new_user)
@@ -77,6 +81,9 @@ class CheckSession(Resource):
 class Login(Resource):
     def post(self):
         data = request.get_json()
+
+        if 'username' not in data or 'password' not in data:
+            return {'error': 'Username and password are required'}, 422
 
         username = data['username']
         password = data['password']
