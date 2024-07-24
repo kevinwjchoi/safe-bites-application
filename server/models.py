@@ -19,6 +19,7 @@ class User(db.Model, SerializerMixin):
 
     #Add relationships with other models later
 
+
     @validates('username')
     def validate_username(self, key, username):
         if User.query.filter_by(username=username).first():
