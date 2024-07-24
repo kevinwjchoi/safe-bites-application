@@ -4,6 +4,7 @@
         "dotenv",
         "kevinwjchoi",
         "levelname",
+        "reduxjs",
         "urandom"
     ]
 }
