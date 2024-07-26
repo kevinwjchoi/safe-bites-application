@@ -14,8 +14,14 @@ export const userSlice = createSlice({
         clearUser: (state) => {
             state.currentUser = null;
         },
+        setStatus: (state, action) => {
+            state.status = action.payload;
+        },
+        setError: (state, action) => {
+        state.error = action.payload;
+        },
     },
 });
 
-export const { setUser, clearUser } = userSlice.actions;
+export const { setUser, clearUser, setStatus, setError } = userSlice.actions;
 export default userSlice.reducer;
