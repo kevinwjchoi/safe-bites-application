@@ -3,10 +3,21 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { TextField, Button, Box } from '@mui/material';
 
+const CustomTextField = ({ label, ...props }) => (
+  <Field
+    name={props.name}
+    as={TextField}
+    label={label}
+    variant="outlined"
+    margin="normal"
+    fullWidth
+    helperText={<ErrorMessage name={props.name} />}
+    error={Boolean(props.touched && props.errors)}
+    {...props}
+  />
+);
 
 const LoginForm = ({ onSubmit }) => {
-
-  
   return (
     <Formik
       initialValues={{ username: '', password: '' }}
@@ -16,19 +27,32 @@ const LoginForm = ({ onSubmit }) => {
       })}
       onSubmit={onSubmit}
     >
-      {({ handleSubmit, resetForm }) => (
+      {({ handleSubmit, resetForm, errors, touched }) => (
         <Form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="username">Username</label>
-            <Field type="text" id="username" name="username" />
-            <ErrorMessage name="username" component="div" />
-          </div>
-          <div>
-            <label htmlFor="password">Password</label>
-            <Field type="password" id="password" name="password" />
-            <ErrorMessage name="password" component="div" />
-          </div>
-          <button type="submit">Login</button>
+          <Box>
+            <CustomTextField
+              name="username"
+              label="Username"
+              type="text"
+              helperText={<ErrorMessage name="username" />}
+              error={Boolean(touched.username && errors.username)}
+            />
+            <CustomTextField
+              name="password"
+              label="Password"
+              type="password"
+              helperText={<ErrorMessage name="password" />}
+              error={Boolean(touched.password && errors.password)}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              sx={{ mt: 2, width: '100%' }}
+            >
+              Login
+            </Button>
+          </Box>
         </Form>
       )}
     </Formik>
