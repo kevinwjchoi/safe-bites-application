@@ -1,6 +1,7 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { TextField, Button, Box } from '@mui/material';
 
 const SignupSchema = Yup.object().shape({
   username: Yup.string()
@@ -19,52 +20,86 @@ const SignupSchema = Yup.object().shape({
   restrictions: Yup.string(),
 });
 
+const CustomTextField = ({ label, ...props }) => (
+  <Field
+    name={props.name}
+    as={TextField}
+    label={label}
+    variant="outlined"
+    margin="normal"
+    fullWidth
+    helperText={<ErrorMessage name={props.name} />}
+    error={Boolean(props.touched && props.errors)}
+    {...props}
+  />
+);
+
 const SignupForm = ({ onSubmit }) => (
-  <div>
-    <h1>Sign Up</h1>
-    <Formik
-      initialValues={{
-        username: '',
-        email: '',
-        password: '',
-        allergies: '',
-        restrictions: '',
-      }}
-      validationSchema={SignupSchema}
-      onSubmit={(values, { setSubmitting }) => {
-        onSubmit(values);
-        setSubmitting(false);
-      }}
-    >
-      {({ isSubmitting }) => (
-        <Form>
-          <div>
-            <Field type="text" name="username" placeholder="Username" />
-            <ErrorMessage name="username" component="div" />
-          </div>
-          <div>
-            <Field type="email" name="email" placeholder="Email" />
-            <ErrorMessage name="email" component="div" />
-          </div>
-          <div>
-            <Field type="password" name="password" placeholder="Password" />
-            <ErrorMessage name="password" component="div" />
-          </div>
-          <div>
-            <Field type="text" name="allergies" placeholder="Allergies (optional)" />
-            <ErrorMessage name="allergies" component="div" />
-          </div>
-          <div>
-            <Field type="text" name="restrictions" placeholder="Restrictions (optional)" />
-            <ErrorMessage name="restrictions" component="div" />
-          </div>
-          <button type="submit" disabled={isSubmitting}>
+  <Formik
+    initialValues={{
+      username: '',
+      email: '',
+      password: '',
+      allergies: '',
+      restrictions: '',
+    }}
+    validationSchema={SignupSchema}
+    onSubmit={(values, { setSubmitting }) => {
+      onSubmit(values);
+      setSubmitting(false);
+    }}
+  >
+    {({ handleSubmit, resetForm, errors, touched, isSubmitting }) => (
+      <Form onSubmit={handleSubmit}>
+        <Box sx={{ maxWidth: 600, margin: 'auto', padding: 2 }}>
+          <CustomTextField
+            name="username"
+            label="Username"
+            type="text"
+            helperText={<ErrorMessage name="username" />}
+            error={Boolean(touched.username && errors.username)}
+          />
+          <CustomTextField
+            name="email"
+            label="Email"
+            type="email"
+            helperText={<ErrorMessage name="email" />}
+            error={Boolean(touched.email && errors.email)}
+          />
+          <CustomTextField
+            name="password"
+            label="Password"
+            type="password"
+            helperText={<ErrorMessage name="password" />}
+            error={Boolean(touched.password && errors.password)}
+          />
+          <CustomTextField
+            name="allergies"
+            label="Allergies (optional)"
+            type="text"
+            helperText={<ErrorMessage name="allergies" />}
+            error={Boolean(touched.allergies && errors.allergies)}
+          />
+          <CustomTextField
+            name="restrictions"
+            label="Restrictions (optional)"
+            type="text"
+            helperText={<ErrorMessage name="restrictions" />}
+            error={Boolean(touched.restrictions && errors.restrictions)}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2, width: '100%' }}
+            disabled={isSubmitting}
+          >
             Sign Up
-          </button>
-        </Form>
-      )}
-    </Formik>
-  </div>
+          </Button>
+        </Box>
+      </Form>
+    )}
+  </Formik>
 );
 
 export default SignupForm;

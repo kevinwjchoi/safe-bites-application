@@ -18,3 +18,8 @@ env/
 # Ignore IDE/editor-specific files
 .idea/
 .vscode/
+
+# Ignore node_modules and cache files
+node_modules/
+client/node_modules/.cache/
+git rm -r --cached node_modules/
