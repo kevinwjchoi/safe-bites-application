@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Container, Typography } from '@mui/material';
-import '../index.css'; // Ensure this import is still needed
+import '../index.css'; 
 
 const Home = () => {
   const { currentUser } = useSelector((state) => state.user);
