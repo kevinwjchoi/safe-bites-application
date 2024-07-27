@@ -29,7 +29,6 @@ const Signup = () => {
       dispatch(setUser(userData));
       dispatch(setStatus('succeeded'));
 
-      // Redirect to login page
       navigate('/login');
     } catch (err) {
       dispatch(setError(err.message));

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { TextField, Button, Box } from '@mui/material';
+import { TextField, Button, Box, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const SignupSchema = Yup.object().shape({
   username: Yup.string()
@@ -96,6 +97,12 @@ const SignupForm = ({ onSubmit }) => (
           >
             Sign Up
           </Button>
+          <Typography variant="body2" align="center" sx={{ mt: 2 }}>
+            Already have an account?{' '}
+            <Button component={Link} to="/login" variant="text">
+              Login
+            </Button>
+          </Typography>
         </Box>
       </Form>
     )}
