@@ -9,7 +9,7 @@ export const userSlice = createSlice({
     },
     reducers: {
         setUser: (state, action) => {
-            state.value = action.payload;
+            state.currentUser = action.payload;
         },
         clearUser: (state) => {
             state.currentUser = null;
@@ -18,7 +18,7 @@ export const userSlice = createSlice({
             state.status = action.payload;
         },
         setError: (state, action) => {
-        state.error = action.payload;
+            state.error = action.payload;
         },
     },
 });
