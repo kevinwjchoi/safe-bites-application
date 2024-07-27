@@ -23,3 +23,6 @@ env/
 node_modules/
 client/node_modules/.cache/
 git rm -r --cached node_modules/
+
+#Ignore .DS_store 
+echo ".DS_Store" >> .gitignore
