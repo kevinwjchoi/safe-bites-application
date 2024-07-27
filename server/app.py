@@ -40,7 +40,7 @@ class Signup(Resource):
         data = request.get_json()
 
         if 'username' not in data or 'email' not in data or 'password' not in data:
-            return {'error':'Username, email, and password are required'}, 422
+            return {'error': 'Username, email, and password are required'}, 422
 
         username = data['username'].lower()
         email = data['email'].lower()
@@ -48,24 +48,26 @@ class Signup(Resource):
         allergies = data.get('allergies', '')
         restrictions = data.get('restrictions', '')
 
-        username_exists = User.query.filter_by(username = username).first()
-        email_exists = User.query.filter_by(email = email).first()
+        username_exists = User.query.filter_by(username=username).first()
+        email_exists = User.query.filter_by(email=email).first()
 
         if username_exists:
-            return {'error' : 'An account with this username already exists'}, 409
+            return {'error': 'An account with this username already exists'}, 409
         if email_exists:
-            return {'error' : 'An account with this email already exists'}, 409
+            return {'error': 'An account with this email already exists'}, 409
         
-        new_user = User(
-            username=username,
-            email = email,
-            password_hash = password,
-            allergies = allergies,
-            restrictions = restrictions
+        try:
+            new_user = User(
+                username=username,
+                email=email,
+                allergies=allergies,
+                restrictions=restrictions
             )
-
-        db.session.add(new_user)
-        db.session.commit()
+            new_user.password_hash = password 
+            db.session.add(new_user)
+            db.session.commit()
+        except ValueError as e:
+            return {'error': str(e)}, 400
 
         return new_user.to_dict(), 201
 
@@ -162,3 +164,8 @@ api.add_resource(Signup, '/signup', endpoint='/signup')
 api.add_resource(CheckSession, '/check_session', endpoint='/check_session')
 api.add_resource(Login, '/login', endpoint='/login')
 api.add_resource(Logout, '/logout', endpoint='logout')
+
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
