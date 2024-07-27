@@ -1,15 +1,35 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { clearUser } from '../redux/features/userSlice'; // Adjust the import path as needed
 
 const Layout = ({ children }) => {
   const location = useLocation();
-
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const hideAppBarRoutes = ['/login', '/signup'];
 
   const shouldHideAppBar = hideAppBarRoutes.includes(location.pathname);
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('/logout', { method: 'DELETE' });
+
+      if (response.ok) {
+        dispatch(clearUser());
+
+        navigate('/login');
+      } else {
+        const data = await response.json();
+        throw new Error(data.error || 'Logout failed');
+      }
+    } catch (err) {
+      console.error('Logout error:', err.message);
+    }
+  };
 
   return (
     <div>
@@ -30,6 +50,9 @@ const Layout = ({ children }) => {
             </Button>
             <Button color="inherit" component={Link} to="/profile">
               Profile
+            </Button>
+            <Button color="inherit" onClick={handleLogout}>
+              Logout
             </Button>
           </Toolbar>
         </AppBar>
