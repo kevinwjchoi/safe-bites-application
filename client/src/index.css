@@ -14,3 +14,12 @@ body {
   --link: #61dafb;
   --text: hsla(0, 0%, 100%, 0.88);
 }
+
+/* .background-container {
+  background-image: url('/Users/kevinchoi/Development/se-prep/phase-5/safe-bites-application/background.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh; 
+  padding: 0 16px; 
+} */

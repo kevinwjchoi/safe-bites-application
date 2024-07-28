@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Button, Drawer, List, ListItem, ListItemText } from '@mui/material';
+import { AppBar, Toolbar, Typography, IconButton, Button, Drawer, List, ListItem, ListItemText, Switch } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { clearUser } from '../redux/features/userSlice';
 
-const Layout = ({ children }) => {
+const Layout = ({ children, onModeChange }) => {
 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const location = useLocation();
@@ -42,24 +42,26 @@ const Layout = ({ children }) => {
 
 
   return (
-    <div>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer(true)} sx={{ mr: 2 }}>
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component={Link} to="/home" sx={{ flexGrow: 1, textDecoration: 'none', color: 'inherit'}}>
-            SafeBites
-          </Typography>
-          <Button color="inherit" component={Link} to="/profile">
-            Profile
-          </Button>
-          <Button color="inherit" onClick={handleLogout}>
-            Logout
-          </Button>
-        </Toolbar>
-      </AppBar>
-
+    <div className="background-container">
+      {!shouldHideAppBar && (
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer(true)} sx={{ mr: 2 }}>
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" component={Link} to="/home" sx={{ flexGrow: 1, textDecoration: 'none', color: 'inherit'}}>
+              SafeBites
+            </Typography>
+            <Button color="inherit" component={Link} to="/profile">
+              Profile
+            </Button>
+            <Button color="inherit" onClick={handleLogout}>
+              Logout
+            </Button>
+            <Switch onChange={onModeChange} />
+          </Toolbar>
+        </AppBar>
+      )}
       {/* Drawer */}
       <Drawer
         anchor="left"
